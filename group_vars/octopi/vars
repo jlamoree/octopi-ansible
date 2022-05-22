@@ -1,0 +1,2 @@
+---
+octopi_user_password: "{{ vault_octopi_user_password }}"

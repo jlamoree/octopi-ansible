@@ -1,0 +1,10 @@
+[Unit]
+Description=Apply Webcam Settings
+After=webcamd.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/uvcdynctrl -d video0 -L /etc/webcam-settings
+
+[Install]
+WantedBy=multi-user.target

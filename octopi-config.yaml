@@ -1,0 +1,34 @@
+---
+- hosts: octopi
+  tasks:
+    - name: Install USB webcam control tool
+      ansible.builtin.apt:
+        name: uvcdynctrl
+        state: present
+
+    - name: Copy webcam settings file
+      ansible.builtin.copy:
+        src: files/webcam-settings
+        dest: /etc/webcam-settings
+        owner: root
+        group: root
+        mode: "0444"
+
+    - name: Copy systemd service unit file
+      ansible.builtin.copy:
+        src: files/webcam-settings.service
+        dest: /etc/systemd/system/webcam-settings.service
+        owner: root
+        group: root
+        mode: "0555"
+
+    - name: Install webcam settings systemd service
+      ansible.builtin.systemd:
+        name: webcam-settings
+        daemon_reload: true
+        enabled: true
+
+    - name: Apply webcam settings
+      ansible.builtin.systemd:
+        name: webcam-settings
+        state: restarted
